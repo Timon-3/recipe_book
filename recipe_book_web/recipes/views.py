@@ -2,6 +2,8 @@ import re
 from django.shortcuts import render
 from django.http import HttpResponse
 from datetime import datetime
+from recipes.models import Ingredient, Recipe
+from django.views.generic import ListView
 """
 # Create your views here.
 def home(request):
@@ -25,6 +27,26 @@ def hello(request, name):
             'date': datetime.now()
         }
     )
+
+def enter_ingredient(request):
+    form = IngredientForm(request.POST or None)
+    if request.method == "POST":
+        if form.is_valid():
+            ingredient = form.save(commit=False)
+            ingredient.save()
+            return redirect("home")
+        else:
+            return render(request,
+                "recipes/enter_ingredient.html",{"form": form})
+
+# Create your views here.
+class HomeListView(ListView):
+    """Renders the home page, with a list of all recipes."""
+    model = Recipe
+    def get_context_data(self, **kwargs):
+        context = super(HomeListView, 
+        self).get_context_data(**kwargs)
+        return context
 
 """
 def hello(request, name):

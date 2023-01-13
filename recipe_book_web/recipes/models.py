@@ -1,10 +1,10 @@
 from django.db import models
-from datetime import datetime
+from django.utils import timezone
 # Create your models here.
 
 class Recipe(models.Model):
     name = models.CharField(verbose_name="Name des Rezepts", max_length=20, help_text="Name des Rezepts")
-    created = models.DateTimeField(verbose_name="Erstellungsdatum",default=datetime.now, help_text="Das Rezept wurde zu dieser Zeit erstellt.")
+    created = models.DateTimeField(verbose_name="Erstellungsdatum",default=timezone.now, help_text="Das Rezept wurde zu dieser Zeit erstellt.")
     EASY = "easy"
     INTERMEDIATE = "medium"
     HARD = "hard"
